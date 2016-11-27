@@ -1,17 +1,45 @@
-/*
-=======================================================
+$(document).ready(function() {
 
-    ** Week 7 - Project 1  **
-*** Ajax and JSON with OMDB ***
+  $('#submitBtn').on('click', function(){
+    $('#searchResults').empty();
 
-This assignment is more open than the past assignments. 
-You are free to build a simple web page that interacts 
-with OMBD. It can simply display data within the HTML 
-page or buttons and text fields can be added to interact
-with the data and update the page accordingly. 
+    let searchText = $('#searchBox').val();
+    let $query = $.getJSON('http://www.omdbapi.com/?s=' + searchText)
 
-Have fun! 
- 
-=======================================================
-*/
+    $query.done((data) => {
+      if ($query.status !== 200) {
+          return;
+      }
 
+      let results = data.Search;
+      breakDownSearchResults(results)
+
+      $query.fail(function(err) {
+        console.log(err);
+      });
+    })
+  })
+
+// Iterate over results; create container Div; append to DOM
+  const breakDownSearchResults = function(array) {
+    array.forEach( (result) => {
+      let newResult = document.createElement( "div" )
+      $(newResult).addClass('result')
+      $('#searchResults').append(populateResultDivs(result, newResult))
+      console.log(result);
+    })
+  }
+
+// Populate result div with result specific info
+  const populateResultDivs = function (obj, containerDiv) {
+    let title = obj.Title;
+    let poster = obj.Poster;
+    let releaseYear = obj.Year;
+
+    $(containerDiv).append("<h5>" + title + "</h5>");
+    $(containerDiv).append("<h6>" + releaseYear + "</h6>");
+    $(containerDiv).append("<img class='poster' src='" + poster + "' alt='title' />");
+    return containerDiv
+  }
+
+});
