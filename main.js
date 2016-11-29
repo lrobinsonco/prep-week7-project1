@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-  
+
   $('#submitBtn').on('click', function(){
     $('#searchResults').empty();
 
@@ -11,7 +11,7 @@ $(document).ready(function() {
       if ($query.status !== 200) {
           return;
       }
-      console.log(data);
+      // console.log(data);
       let results = data.Search;
 
       // Function to take JSON object and populate the HTML DOM
@@ -44,7 +44,7 @@ $(document).ready(function() {
       let newResult = document.createElement( "div" )
       $(newResult).addClass("result")
       $("#searchResults").append( populateResultDivs(result, newResult))
-      console.log(result);
+      // console.log(result);
     })
   }
 
